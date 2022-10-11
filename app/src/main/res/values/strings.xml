@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Англо-Русский словарь</string>
+    <string name="action_switch_layout">Переключить вид</string>
+    <string name="not_word">Такого слова нет или вы ошиблись</string>
+    <string name="iconfavorite">icon favorite</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favoritet">Избранные слова</string>
+    <string name="countSee">просмотров:</string>
+    <string name="descriptions">Descriptions</string>
+    <string name="word">Word</string>
+    <string name="countViewed">просмотров: </string>
+</resources>

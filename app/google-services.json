@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "477252412962",
+    "firebase_url": "https://vocabularmuller-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "vocabularmuller",
+    "storage_bucket": "vocabularmuller.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477252412962:android:bd1d72261e81a81e6acc7b",
+        "android_client_info": {
+          "package_name": "com.lazarovstudio.vocabularymuller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477252412962-v5ssljhc8248eelr4i5avsekorpk7e2l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTGBvc9TYaiP4jO5IKApU7e5P0j4hS6FQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477252412962-v5ssljhc8248eelr4i5avsekorpk7e2l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

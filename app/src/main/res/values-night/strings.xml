@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="iconfavorite">icon favorite</string>
+    <string name="favoritet">Избранные слова</string>
+    <string name="countSee">просмотров:</string>
+    <string name="descriptions">Descriptions</string>
+    <string name="word">Word</string>
+    <string name="countViewed">просмотров: </string>
+</resources>
