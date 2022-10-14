@@ -6,4 +6,5 @@
     <string name="descriptions">Descriptions</string>
     <string name="word">Word</string>
     <string name="countViewed">просмотров: </string>
+    <string name="action_switch_layout">action_switch_layout</string>
 </resources>

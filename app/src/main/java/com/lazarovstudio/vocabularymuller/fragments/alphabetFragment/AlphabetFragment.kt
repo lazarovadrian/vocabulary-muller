@@ -1,16 +1,17 @@
 package com.lazarovstudio.vocabularymuller.fragments.alphabetFragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.adapter.AdapterAlphabetFragment
 import com.lazarovstudio.vocabularymuller.databinding.RcFragmentAlphabetBinding
 import com.lazarovstudio.vocabularymuller.extension.openFragment
@@ -26,7 +27,6 @@ class AlphabetFragment : Fragment() {
     private var adapter = AdapterAlphabetFragment(this)
     private lateinit var rcSearch: SearchView
     private lateinit var rcProgress: ProgressBar
-    private lateinit var btnFr: Button
 
     private val model: MainViewModel by activityViewModels()
 
@@ -48,7 +48,6 @@ class AlphabetFragment : Fragment() {
         rcAlphabetFragment.setHasFixedSize(true)
 
 //        val filterChar = arguments?.getChar("filterChar")
-
         rcSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -66,12 +65,25 @@ class AlphabetFragment : Fragment() {
             adapter.updateAdapter(item)
         }
 
-        //refactoring!
-        btnFr = binding.btnFavorite
-        btnFr.setOnClickListener {
-            openFragment(FavoriteFragment.favoriteInstance())
-        }
+//новый API для вывода меню в actionBar
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_alphabet_fragment, menu)
+            }
 
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_favorite_layout -> {
+                        openFragment(FavoriteFragment.favoriteInstance())
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     fun showDetailFragment(item: Dictionary) {

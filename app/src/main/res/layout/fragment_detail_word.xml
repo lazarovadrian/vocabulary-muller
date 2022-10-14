@@ -39,7 +39,7 @@
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:contentDescription="@string/iconfavorite"
-                android:src="@drawable/ic_favorite_white"
+                android:src="@drawable/ic_favorite_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="?attr/colorOnBackground" />

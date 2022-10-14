@@ -3,7 +3,10 @@ package com.lazarovstudio.vocabularymuller.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +16,7 @@ import com.lazarovstudio.vocabularymuller.databinding.RcFragmentAlphabetCharBind
 import com.lazarovstudio.vocabularymuller.extension.openFragment
 import com.lazarovstudio.vocabularymuller.fragments.alphabetFragment.AlphabetFragment
 
-class ListAlphabetChar : Fragment(){
+class ListAlphabetChar : Fragment() {
     private lateinit var _binding: RcFragmentAlphabetCharBinding
     private val binding get() = _binding
     private lateinit var rcFragmentAlphabetChar: RecyclerView
@@ -34,10 +37,9 @@ class ListAlphabetChar : Fragment(){
         if (menuItem == null)
             return
         menuItem.icon = if (isLinearLayoutManager)
-//            context?.let { ContextCompat.getDrawable(it, R.drawable.ic_grid_layout) }
             ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_grid_layout)
         else
-            context?.let { ContextCompat.getDrawable(it, R.drawable.ic_linear_layout) }
+            ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_linear_layout)
     }
 
     override fun onCreateView(
@@ -51,28 +53,28 @@ class ListAlphabetChar : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         rcFragmentAlphabetChar = binding.rcAlphabetChar
-        setHasOptionsMenu(true)//требуется для отображения меню
         chooseLayout()
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.layout_menu, menu)
-        val layoutButton = menu.findItem(R.id.action_switch_layout)
-        setIcon(layoutButton)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_switch_layout -> {
-                isLinearLayoutManager = !isLinearLayoutManager
-                chooseLayout()
-                setIcon(item)
-                return true
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_main, menu)
             }
-            else -> super.onOptionsItemSelected(item)
-        }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_switch_layout -> {
+                        isLinearLayoutManager = !isLinearLayoutManager
+                        chooseLayout()
+                        setIcon(menuItem)
+                        return true
+                    }
+                    else -> false
+                }
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     //передаем букву в фрагмен AlphabetFragment

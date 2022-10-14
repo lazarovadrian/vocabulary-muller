@@ -27,7 +27,7 @@
                 android:contentDescription="@string/iconfavorite"
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"
-                android:src="@drawable/ic_favorite_white"
+                android:src="@drawable/ic_favorite_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/word"/>
 
