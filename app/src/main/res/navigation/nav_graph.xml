@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listAlphabetChar">
+
+    <fragment
+        android:id="@+id/alphabetFragment"
+        android:name="com.lazarovstudio.vocabularymuller.fragments.alphabetFragment.AlphabetFragment"
+        android:label="Список Слов"
+        tools:layout="@layout/rc_fragment_alphabet">
+        <action
+            android:id="@+id/action_alphabetFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_alphabetFragment_to_detailWordFragment"
+            app:destination="@id/detailWordFragment" />
+        <argument
+            android:name="letter"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailWordFragment"
+        android:name="com.lazarovstudio.vocabularymuller.fragments.DetailWordFragment"
+        android:label="DetailWordFragment"
+        tools:layout="@layout/fragment_detail_word">
+        <action
+            android:id="@+id/action_detailWordFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_detailWordFragment_to_alphabetFragment"
+            app:destination="@id/alphabetFragment"
+            app:launchSingleTop="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/listAlphabetChar"
+        android:name="com.lazarovstudio.vocabularymuller.fragments.ListAlphabetChar"
+        android:label="list_alphabet_char"
+        tools:layout="@layout/rc_fragment_alphabet_char">
+        <action
+            android:id="@+id/action_listAlphabetChar_to_alphabetFragment"
+            app:destination="@id/alphabetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.lazarovstudio.vocabularymuller.fragments.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+</navigation>

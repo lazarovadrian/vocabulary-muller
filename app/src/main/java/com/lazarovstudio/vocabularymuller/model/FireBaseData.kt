@@ -30,7 +30,7 @@ class FireBaseData {
         })
     }
 
-    //запись базу количества просмотров
+    //запись в базу количества просмотров
     fun wordViewed(word: Dictionary, counter: Int) {
         dbPathMain.child(word.id.toString())
             .child(DICTIONARY_NODE).setValue(

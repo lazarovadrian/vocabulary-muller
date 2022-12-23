@@ -2,7 +2,6 @@ package com.lazarovstudio.vocabularymuller.fragments.alphabetFragment
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.adapter.AdapterAlphabetFragment
 import com.lazarovstudio.vocabularymuller.databinding.RcFragmentAlphabetBinding
@@ -21,14 +19,16 @@ import com.lazarovstudio.vocabularymuller.model.Dictionary
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class AlphabetFragment : Fragment() {
-    private lateinit var _binding: RcFragmentAlphabetBinding
-    private val binding get() = _binding
-    private lateinit var rcAlphabetFragment: RecyclerView
-    private var adapter = AdapterAlphabetFragment(this)
-    private lateinit var rcSearch: SearchView
-    private lateinit var rcProgress: ProgressBar
-
+    private var _binding: RcFragmentAlphabetBinding? = null
+    private val binding get() = _binding!!
+    private val adapter = AdapterAlphabetFragment(this)
     private val model: MainViewModel by activityViewModels()
+    private var latterId: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let { latterId = it.getString(LETTER).toString() }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,33 +39,42 @@ class AlphabetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        rcAlphabetFragment = binding.rcFragmentAlphabet
-        rcSearch = binding.search
-        rcProgress = binding.progress
-        rcAlphabetFragment.layoutManager = LinearLayoutManager(context)
-        rcAlphabetFragment.adapter = adapter
-        rcAlphabetFragment.setHasFixedSize(true)
+        binding.search
+        binding.progress
+        binding.rcFragmentAlphabet.layoutManager = LinearLayoutManager(context)
+        binding.rcFragmentAlphabet.adapter = adapter
+        binding.rcFragmentAlphabet.setHasFixedSize(true)
 
 //        val filterChar = arguments?.getChar("filterChar")
-        rcSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
+            override fun onQueryTextChange(newText: String): Boolean {
+                model.filter(newText)
                 return false
             }
         })
-
+//загружаем список слов из базы
         model.loadListWord()
-        model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
-            rcProgress.visibility = View.GONE
-            adapter.updateAdapter(item)
-        }
+//        model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
+//            binding.progress.visibility = View.GONE
+//            adapter.submitList(item)
+//        }
+//выполняется при поиске
+        model.liveDataFilterWordsList.observe(viewLifecycleOwner) { item ->
+            if (item.isEmpty()){
+                binding.progress.visibility = View.VISIBLE
+                binding.txtInfo.visibility = View.VISIBLE
+            }else{
+                binding.progress.visibility = View.GONE
+                binding.txtInfo.visibility = View.GONE
 
-//новый API для вывода меню в actionBar
+            }
+            adapter.submitList(item)
+        }
+        //новый API для вывода меню в actionBar
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -101,50 +110,11 @@ class AlphabetFragment : Fragment() {
     }
 
     companion object {
-        fun getInstance(args: Bundle?): AlphabetFragment {
-            val alphabetFragment = AlphabetFragment()
-            alphabetFragment.arguments = args
-            return alphabetFragment
-        }
+        const val LETTER = "letter"
     }
 
-//    fun searchWord(searchWord: List<Dictionary>){
-//        rcSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.filter.filter(newText)
-////                adapter.searchFilter(newText)
-//                return false
-//            }
-//
-//        })
-//    }
-
-//поиск, startsWith - начинает с первого символа
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun filterSearch(searchWord: String?, listWord: ArrayList<Dictionary>){
-//        val filterName: ArrayList<Dictionary> = ArrayList()
-//        alphabetList.clear()
-//        for(s : Dictionary in listWord){
-//            if (searchWord != null) {
-//                if(s.word?.lowercase()?.startsWith(searchWord.lowercase()) == true){
-//                    filterName.add(s)
-//                }
-//            }
-//        }
-//    if(alphabetList.size == 0) filterName.add(R.string.not_word as Dictionary)
-//    filterName
-//    }
-
-//    fun progress(){
-//
-//    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

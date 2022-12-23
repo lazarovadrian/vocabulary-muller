@@ -11,9 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/material_on_surface_stroke"
+        app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,12 +27,12 @@
                 android:id="@+id/save_favorite"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:contentDescription="@string/iconfavorite"
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"
+                android:contentDescription="@string/iconfavorite"
                 android:src="@drawable/ic_favorite_black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/word"/>
+                app:layout_constraintTop_toTopOf="@id/word" />
 
             <TextView
                 android:id="@+id/word"
@@ -58,11 +61,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:text="@string/countViewed"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintEnd_toStartOf="@id/countViewed"
-                app:layout_constraintTop_toBottomOf="@id/word"
-                android:text="@string/countViewed" />
+                app:layout_constraintTop_toBottomOf="@id/word" />
 
             <TextView
                 android:id="@+id/countViewed"

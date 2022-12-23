@@ -1,5 +1,6 @@
 package com.lazarovstudio.vocabularymuller.viewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lazarovstudio.vocabularymuller.model.Dictionary
@@ -12,10 +13,10 @@ class MainViewModel : ViewModel() {
     val liveDataFavorite get() = _liveDataFavorite
 
     private val _liveDataWordsList = MutableLiveData<List<Dictionary>>()
-    val liveDataWordsList get() = _liveDataWordsList
+//    val liveDataWordsList get() = _liveDataWordsList
 
-//    private val _liveDataCountSee = MutableLiveData(0)
-//    val liveDataCountSee: LiveData<Int> get() = _liveDataCountSee
+    private val _liveDataFilterWordsList = MutableLiveData<List<Dictionary>>()
+    val liveDataFilterWordsList get() = _liveDataFilterWordsList
 
     fun loadListWord() {
         fireBaseData.getDictionary(object : FireBaseData.ReadDataInterface {
@@ -26,7 +27,19 @@ class MainViewModel : ViewModel() {
     }
 
     fun saveFavorite(word: List<Dictionary>) {
-        _liveDataFavorite.value = word
+        val saveWord = ArrayList<Dictionary>()
+        for (favorite in word) {
+            saveWord.add(
+                Dictionary(
+                    favorite.id,
+                    favorite.description,
+                    favorite.word,
+                    favorite.countSee,
+                    save = true
+                )
+            )
+        }
+        _liveDataFavorite.value = saveWord
     }
 
     fun wordViewed(word: Dictionary) {
@@ -34,5 +47,23 @@ class MainViewModel : ViewModel() {
         counter++
         fireBaseData.wordViewed(word, counter)
     }
+
+    fun filter(char: String) {
+        _liveDataFilterWordsList.value = if (char.isEmpty()) {
+                 listOf()
+//            _liveDataWordsList.value
+        } else {
+            val searchWord = char.lowercase()
+            val resultList = ArrayList<Dictionary>()
+            for (item in _liveDataWordsList.value!!) {
+                if (item.word.lowercase().startsWith(searchWord)) {
+                    resultList.add(item)
+                }
+            }
+            resultList
+        }
+        Log.d("PUB", liveDataFilterWordsList.value.toString())
+    }
+
 
 }

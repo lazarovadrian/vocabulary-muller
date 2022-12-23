@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Англо-Русский словарь</string>
     <string name="action_favorite_layout">Избранное</string>
-    <string name="not_word">Такого слова нет или вы ошиблись</string>
+    <string name="not_word">Начните поиск или вы ошиблись</string>
+    <string name="first_word">Словарь загружен, можете начать поиск</string>
     <string name="iconfavorite">icon favorite</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favoritet">Избранные слова</string>
@@ -10,4 +11,5 @@
     <string name="word">Word</string>
     <string name="countViewed">просмотров: </string>
     <string name="action_switch_layout">action_switch_layout</string>
+    <string name="support_site">Cоздано при поддержке slovaronline.com</string>
 </resources>

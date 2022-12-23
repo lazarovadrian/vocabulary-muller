@@ -2,35 +2,25 @@ package com.lazarovstudio.vocabularymuller
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import com.lazarovstudio.vocabularymuller.databinding.ActivityMainBinding
-import com.lazarovstudio.vocabularymuller.extension.openFragment
-import com.lazarovstudio.vocabularymuller.fragments.ListAlphabetChar
+import com.lazarovstudio.vocabularymuller.extension.openHostFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val navController: NavController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
         val isFragmentContainerEmpty = savedInstanceState == null
         if (isFragmentContainerEmpty) {
-            val listAlphabetChar = ListAlphabetChar.newInstance()
-            //проверяем создался ли фрагмент в контейнере
-            //если нет то создает новый - запускаем фрагмент
-            openFragment(listAlphabetChar)
+            if (navController != null) {
+                openHostFragment(navController)
+            }
         }
+    }
 
-//        val btn: Button = findViewById(R.id.btnSend)
-//        val editText: EditText = findViewById(R.id.editSpace)
-
-//        btn.setOnClickListener {
-//            val text = editText.text
-//            if(text.length > 5){
-//                println(text)
-//            }else{
-//                Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
-//            }
-//        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController?.navigateUp() ?: super.onSupportNavigateUp()
     }
 }

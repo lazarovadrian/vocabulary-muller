@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import com.lazarovstudio.vocabularymuller.databinding.FragmentDetailWordBinding
 
 class DetailWordFragment : Fragment() {
-    private lateinit var _binding: FragmentDetailWordBinding
-    private val binding get() = _binding
+    private var _binding: FragmentDetailWordBinding? = null
+    private val binding get() = _binding!!
     private val itemArray = ArrayList<String>()
 
     override fun onCreateView(
@@ -44,8 +44,8 @@ class DetailWordFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

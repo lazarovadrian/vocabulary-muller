@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.adapter.AdapterFavoriteFragment
 import com.lazarovstudio.vocabularymuller.databinding.FragmentFavoriteBinding
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class FavoriteFragment : Fragment() {
-    private lateinit var _binding: FragmentFavoriteBinding
-    private val binding get() = _binding
-    private lateinit var rcFavoriteFragment: RecyclerView
+    private var _binding: FragmentFavoriteBinding? = null
+    private val binding get() = _binding!!
     private var adapter = AdapterFavoriteFragment()
     private val model: MainViewModel by activityViewModels()
 
@@ -30,10 +28,10 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rcFavoriteFragment = binding.rcListFavorite
-        rcFavoriteFragment.layoutManager = LinearLayoutManager(context)
-        rcFavoriteFragment.adapter = adapter
-        rcFavoriteFragment.setHasFixedSize(true)
+        binding.rcListFavorite
+        binding.rcListFavorite.layoutManager = LinearLayoutManager(context)
+        binding.rcListFavorite.adapter = adapter
+        binding.rcListFavorite.setHasFixedSize(true)
 
         model.liveDataFavorite.observe(viewLifecycleOwner) { wordCard ->
             adapter.submitList(wordCard)
@@ -42,5 +40,10 @@ class FavoriteFragment : Fragment() {
 
     companion object {
         fun favoriteInstance() = FavoriteFragment()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

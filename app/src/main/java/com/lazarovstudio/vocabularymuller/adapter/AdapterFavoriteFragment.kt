@@ -1,5 +1,6 @@
 package com.lazarovstudio.vocabularymuller.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -18,12 +19,16 @@ class AdapterFavoriteFragment :
             word.text = wordCard.word
             descriptions.text = wordCard.description
             countViewed.text = wordCard.countSee
+
+            if (wordCard.save) {
+                saveFavorite.setColorFilter(Color.GREEN)
+            }
         }
     }
 
     class Comparator : DiffUtil.ItemCallback<Dictionary>() {
         override fun areItemsTheSame(oldItem: Dictionary, newItem: Dictionary): Boolean {
-            return oldItem.word == newItem.word
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Dictionary, newItem: Dictionary) =

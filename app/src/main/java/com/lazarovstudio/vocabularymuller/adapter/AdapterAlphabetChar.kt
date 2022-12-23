@@ -3,23 +3,27 @@ package com.lazarovstudio.vocabularymuller.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetCharBinding
-import com.lazarovstudio.vocabularymuller.fragments.ListAlphabetChar
+import com.lazarovstudio.vocabularymuller.fragments.ListAlphabetCharDirections
 
-class AdapterAlphabetChar(private var selectChar: ListAlphabetChar) :
+class AdapterAlphabetChar :
     RecyclerView.Adapter<AdapterAlphabetChar.AdapterViewHolder>() {
     private val listChars = ('A').rangeTo('Z').toList()
 
-    class AdapterViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val binding = ListAlphabetCharBinding.bind(item)
-        private val char = binding.btnChar
+    class AdapterViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ListAlphabetCharBinding.bind(view)
+        private val btnChar: Button = binding.btnChar
 
-        fun setData(item: Char, selectChar: ListAlphabetChar) {
-            char.text = item.toString()
-            char.setOnClickListener {
-                selectChar.filterChar(item)
+        fun setData(item: Char) {
+            btnChar.text = item.toString()
+            btnChar.setOnClickListener {
+                val action = ListAlphabetCharDirections
+                    .actionListAlphabetCharToAlphabetFragment(letter = btnChar.text.toString())
+                view.findNavController().navigate(action)
             }
         }
     }
@@ -35,7 +39,7 @@ class AdapterAlphabetChar(private var selectChar: ListAlphabetChar) :
     }
 
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) =
-        holder.setData(listChars[position], selectChar)
+        holder.setData(listChars[position])
 
     override fun getItemCount() = listChars.size
 
