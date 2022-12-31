@@ -1,6 +1,7 @@
 package com.lazarovstudio.vocabularymuller.fragments.alphabetFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.core.view.MenuHost
@@ -23,11 +24,15 @@ class AlphabetFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter = AdapterAlphabetFragment(this)
     private val model: MainViewModel by activityViewModels()
-    private var latterId: String? = null
+    private lateinit var latterId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let { latterId = it.getString(LETTER).toString() }
+        arguments.let {
+            if (it != null) {
+                latterId = it.getString(LETTER).toString()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -39,13 +44,11 @@ class AlphabetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.search
-        binding.progress
         binding.rcFragmentAlphabet.layoutManager = LinearLayoutManager(context)
         binding.rcFragmentAlphabet.adapter = adapter
         binding.rcFragmentAlphabet.setHasFixedSize(true)
 
-//        val filterChar = arguments?.getChar("filterChar")
+        Log.d("CHARS", latterId)
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -58,16 +61,21 @@ class AlphabetFragment : Fragment() {
         })
 //загружаем список слов из базы
         model.loadListWord()
+        if (model.liveDataWordsList.value != null){
+            model.filter(latterId)
+        }else{
+          Log.d("CHARS", "NOT LOADING")
+        }
 //        model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
 //            binding.progress.visibility = View.GONE
 //            adapter.submitList(item)
 //        }
 //выполняется при поиске
         model.liveDataFilterWordsList.observe(viewLifecycleOwner) { item ->
-            if (item.isEmpty()){
+            if (item.isEmpty()) {
                 binding.progress.visibility = View.VISIBLE
                 binding.txtInfo.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.progress.visibility = View.GONE
                 binding.txtInfo.visibility = View.GONE
 

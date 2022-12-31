@@ -13,7 +13,7 @@ class MainViewModel : ViewModel() {
     val liveDataFavorite get() = _liveDataFavorite
 
     private val _liveDataWordsList = MutableLiveData<List<Dictionary>>()
-//    val liveDataWordsList get() = _liveDataWordsList
+    val liveDataWordsList get() = _liveDataWordsList
 
     private val _liveDataFilterWordsList = MutableLiveData<List<Dictionary>>()
     val liveDataFilterWordsList get() = _liveDataFilterWordsList

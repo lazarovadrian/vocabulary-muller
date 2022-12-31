@@ -73,18 +73,6 @@ class ListAlphabetChar : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    //передаем букву в фрагмен AlphabetFragment
-//    fun filterChar(item: Char) {
-//        val bundle = Bundle()
-//        bundle.putChar("filterChar", item)
-//        val alphabetFragment = AlphabetFragment.getInstance(args = bundle)
-//        openFragment(alphabetFragment)
-//    }
-
-    companion object {
-        fun newInstance() = ListAlphabetChar()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
