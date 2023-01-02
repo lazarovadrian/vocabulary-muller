@@ -1,6 +1,5 @@
 package com.lazarovstudio.vocabularymuller.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lazarovstudio.vocabularymuller.model.Dictionary
@@ -11,12 +10,9 @@ class MainViewModel : ViewModel() {
 
     private val _liveDataFavorite = MutableLiveData<List<Dictionary>>()
     val liveDataFavorite get() = _liveDataFavorite
-
+    //из базы словарь загружается и хранится
     private val _liveDataWordsList = MutableLiveData<List<Dictionary>>()
     val liveDataWordsList get() = _liveDataWordsList
-
-    private val _liveDataFilterWordsList = MutableLiveData<List<Dictionary>>()
-    val liveDataFilterWordsList get() = _liveDataFilterWordsList
 
     fun loadListWord() {
         fireBaseData.getDictionary(object : FireBaseData.ReadDataInterface {
@@ -49,21 +45,17 @@ class MainViewModel : ViewModel() {
     }
 
     fun filter(char: String) {
-        _liveDataFilterWordsList.value = if (char.isEmpty()) {
-                 listOf()
-//            _liveDataWordsList.value
+        _liveDataWordsList.value = if (char.isEmpty()) {
+            liveDataWordsList.value
         } else {
             val searchWord = char.lowercase()
             val resultList = ArrayList<Dictionary>()
-            for (item in _liveDataWordsList.value!!) {
+            for (item in liveDataWordsList.value!!) {
                 if (item.word.lowercase().startsWith(searchWord)) {
                     resultList.add(item)
                 }
             }
             resultList
         }
-        Log.d("PUB", liveDataFilterWordsList.value.toString())
     }
-
-
 }

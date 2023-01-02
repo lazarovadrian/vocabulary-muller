@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_switch_layout"
-        android:icon="@drawable/ic_linear_layout"
-        android:title="@string/action_switch_layout"
-        app:showAsAction="always" />
+        android:id="@+id/main_switch_layout"
+        android:icon="@drawable/home"
+        android:title="@string/main_switch_layout" />
+    <item
+        android:id="@+id/alphabet_switch_layout"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="@string/alphabet_switch_layout" />
+    <item
+        android:id="@+id/favorite_switch_layout"
+        android:icon="@drawable/ic_favorite_black"
+        android:title="@string/favorite_switch_layout" />
 </menu>

@@ -13,7 +13,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.8.25"
+        versionName "1.9.00"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,6 +51,7 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation 'androidx.navigation:navigation-dynamic-features-fragment:2.5.3'
 
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")

@@ -55,7 +55,7 @@ class ListAlphabetChar : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_main, menu)
+                menuInflater.inflate(R.menu.menu_alphabet_fragment, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

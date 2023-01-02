@@ -1,11 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Англо-Русский словарь</string>
+    <string name="favorite_switch_layout">Избранное</string>
+    <string name="not_word">Такого слова нет</string>
+    <string name="first_word">Словарь загружен, можете начать поиск</string>
+    <string name="loading">Словарь загружается</string>
     <string name="iconfavorite">icon favorite</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favoritet">Избранные слова</string>
     <string name="countSee">просмотров:</string>
     <string name="descriptions">Descriptions</string>
     <string name="word">Word</string>
     <string name="countViewed">просмотров: </string>
-    <string name="action_switch_layout">action_switch_layout</string>
+    <string name="main_switch_layout">Главная</string>
+    <string name="alphabet_switch_layout">Алфавит</string>
     <string name="support_site">Cоздано при поддержке slovaronline.com</string>
+    <string name="search">Идет поиск.....</string>
+    <string name="action_switch_layout">Расскладка алфавита</string>
 </resources>

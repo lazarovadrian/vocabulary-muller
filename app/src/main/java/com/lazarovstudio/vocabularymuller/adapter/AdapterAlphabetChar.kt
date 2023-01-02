@@ -22,7 +22,7 @@ class AdapterAlphabetChar :
             btnChar.text = item.toString()
             btnChar.setOnClickListener {
                 val action = ListAlphabetCharDirections
-                    .actionListAlphabetCharToAlphabetFragment(letter = btnChar.text.toString())
+                    .actionListAlphabetCharToMainSwitchLayout(letter = btnChar.text.toString())
                 view.findNavController().navigate(action)
             }
         }
