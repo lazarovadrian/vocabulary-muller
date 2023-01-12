@@ -16,3 +16,5 @@ BAG_LIST.txt
 .externalNativeBuild
 .cxx
 local.properties
+app-release.apk
+.gitignore

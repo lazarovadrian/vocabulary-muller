@@ -60,8 +60,8 @@ class AlphabetFragment : Fragment() {
 //загружаем список слов из базы
         model.loadListWord()
 //получаем полный список при запуске
-        if (model.liveDataSearchWordsList.value == null){
-            model.liveDataWordsList.observe(viewLifecycleOwner){ item ->
+        if (model.liveDataSearchWordsList.value == null) {
+            model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
                 if (item != null) {
                     binding.progress.visibility = View.GONE
                     binding.txtInfo.visibility = View.GONE
@@ -72,22 +72,11 @@ class AlphabetFragment : Fragment() {
                 adapter.submitList(item)
             }
         }
-        model.liveDataSearchWordsList.observe(viewLifecycleOwner){ item ->
+        model.liveDataSearchWordsList.observe(viewLifecycleOwner) { item ->
             binding.progress.visibility = View.GONE
             binding.txtInfo.visibility = View.GONE
             adapter.submitList(item)
         }
-
-//        model.liveDataSearchWordsList.observe(viewLifecycleOwner) { item ->
-//            if (item != null) {
-//                binding.progress.visibility = View.GONE
-//                binding.txtInfo.visibility = View.GONE
-//            } else {
-//                binding.progress.visibility = View.VISIBLE
-//                binding.txtInfo.visibility = View.VISIBLE
-//            }
-//            adapter.submitList(item)
-//        }
 //выполняем фильтр по букве
         if (model.liveDataWordsList.value != null) {
             model.filter(latterId)

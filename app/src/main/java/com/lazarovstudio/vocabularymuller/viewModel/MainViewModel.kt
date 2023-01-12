@@ -49,11 +49,11 @@ class MainViewModel : ViewModel() {
 
     fun filter(char: String) {
         _liveDataSearchWordsList.value = if (char.isEmpty()) {
-            _liveDataWordsList.value
+            liveDataWordsList.value
         } else {
             val searchWord = char.lowercase()
             val resultList = ArrayList<Dictionary>()
-            for (item in _liveDataWordsList.value!!) {
+            for (item in liveDataWordsList.value!!) {
                 if (item.word.lowercase().startsWith(searchWord)) {
                     resultList.add(item)
                 }
