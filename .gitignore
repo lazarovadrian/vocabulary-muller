@@ -10,13 +10,9 @@
 /app/BAG_LIST.txt
 /app/google-services.json
 .DS_Store
-BAG_LIST.txt
 /app/build
-/captures
-/app/
+/app/libs
 .externalNativeBuild
 .cxx
-local.properties
-app-release.apk
 .gitignore
 /app/.gitignore
