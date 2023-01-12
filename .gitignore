@@ -13,7 +13,7 @@
 BAG_LIST.txt
 /app/build
 /captures
-/app/release/app-release.apk
+/app/
 .externalNativeBuild
 .cxx
 local.properties
