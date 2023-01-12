@@ -10,9 +10,12 @@ class MainViewModel : ViewModel() {
 
     private val _liveDataFavorite = MutableLiveData<List<Dictionary>>()
     val liveDataFavorite get() = _liveDataFavorite
-    //из базы словарь загружается и хранится
+    //из базы словарь загружается и хранится полный список
     private val _liveDataWordsList = MutableLiveData<List<Dictionary>>()
     val liveDataWordsList get() = _liveDataWordsList
+    //используется при поиске, часто обновляется
+    private val _liveDataSearchWordsList = MutableLiveData<List<Dictionary>>()
+    val liveDataSearchWordsList get() = _liveDataSearchWordsList
 
     fun loadListWord() {
         fireBaseData.getDictionary(object : FireBaseData.ReadDataInterface {
@@ -45,12 +48,12 @@ class MainViewModel : ViewModel() {
     }
 
     fun filter(char: String) {
-        _liveDataWordsList.value = if (char.isEmpty()) {
-            liveDataWordsList.value
+        _liveDataSearchWordsList.value = if (char.isEmpty()) {
+            _liveDataWordsList.value
         } else {
             val searchWord = char.lowercase()
             val resultList = ArrayList<Dictionary>()
-            for (item in liveDataWordsList.value!!) {
+            for (item in _liveDataWordsList.value!!) {
                 if (item.word.lowercase().startsWith(searchWord)) {
                     resultList.add(item)
                 }

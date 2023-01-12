@@ -45,6 +45,7 @@ class AlphabetFragment : Fragment() {
         binding.rcFragmentAlphabet.layoutManager = LinearLayoutManager(context)
         binding.rcFragmentAlphabet.adapter = adapter
         binding.rcFragmentAlphabet.setHasFixedSize(true)
+
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -59,16 +60,34 @@ class AlphabetFragment : Fragment() {
 //загружаем список слов из базы
         model.loadListWord()
 //получаем полный список при запуске
-        model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
-            if (item != null) {
-                binding.progress.visibility = View.GONE
-                binding.txtInfo.visibility = View.GONE
-            } else {
-                binding.progress.visibility = View.VISIBLE
-                binding.txtInfo.visibility = View.VISIBLE
+        if (model.liveDataSearchWordsList.value == null){
+            model.liveDataWordsList.observe(viewLifecycleOwner){ item ->
+                if (item != null) {
+                    binding.progress.visibility = View.GONE
+                    binding.txtInfo.visibility = View.GONE
+                } else {
+                    binding.progress.visibility = View.VISIBLE
+                    binding.txtInfo.visibility = View.VISIBLE
+                }
+                adapter.submitList(item)
             }
+        }
+        model.liveDataSearchWordsList.observe(viewLifecycleOwner){ item ->
+            binding.progress.visibility = View.GONE
+            binding.txtInfo.visibility = View.GONE
             adapter.submitList(item)
         }
+
+//        model.liveDataSearchWordsList.observe(viewLifecycleOwner) { item ->
+//            if (item != null) {
+//                binding.progress.visibility = View.GONE
+//                binding.txtInfo.visibility = View.GONE
+//            } else {
+//                binding.progress.visibility = View.VISIBLE
+//                binding.txtInfo.visibility = View.VISIBLE
+//            }
+//            adapter.submitList(item)
+//        }
 //выполняем фильтр по букве
         if (model.liveDataWordsList.value != null) {
             model.filter(latterId)
