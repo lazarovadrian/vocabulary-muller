@@ -10,10 +10,11 @@ import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
 import com.lazarovstudio.vocabularymuller.fragments.alphabetFragment.AlphabetFragment
 import com.lazarovstudio.vocabularymuller.model.Dictionary
 
-private val listWord = ArrayList<Dictionary>()
+private val listWordFavorite = ArrayList<Dictionary>()
 
 class AdapterAlphabetFragment(private val wordCard: AlphabetFragment) :
     ListAdapter<Dictionary, AdapterAlphabetFragment.AlphabetHolder>(Comparator()) {
+
 
     class AlphabetHolder(private val binding: ListAlphabetBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -34,8 +35,8 @@ class AdapterAlphabetFragment(private val wordCard: AlphabetFragment) :
                 wordCard.showDetailFragment(item)
             }
             binding.saveFavorite.setOnClickListener {
-                listWord.add(item)
-                wordCard.saveFavoriteWord(listWord)
+                listWordFavorite.add(item)
+                wordCard.saveFavoriteWord(listWordFavorite)
             }
         }
     }

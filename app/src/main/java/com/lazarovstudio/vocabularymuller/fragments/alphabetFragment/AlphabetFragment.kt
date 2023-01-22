@@ -43,8 +43,8 @@ class AlphabetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rcFragmentAlphabet.layoutManager = LinearLayoutManager(context)
-        binding.rcFragmentAlphabet.adapter = adapter
         binding.rcFragmentAlphabet.setHasFixedSize(true)
+        binding.rcFragmentAlphabet.adapter = adapter
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -57,8 +57,10 @@ class AlphabetFragment : Fragment() {
                 return false
             }
         })
-//загружаем список слов из базы
-        model.loadListWord()
+//выполняем фильтр по букве
+        if(model.liveDataWordsList.value != null){
+            model.filter(latterId)
+        }
 //получаем полный список при запуске
         if (model.liveDataSearchWordsList.value == null) {
             model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
@@ -76,10 +78,7 @@ class AlphabetFragment : Fragment() {
             binding.progress.visibility = View.GONE
             binding.txtInfo.visibility = View.GONE
             adapter.submitList(item)
-        }
-//выполняем фильтр по букве
-        if (model.liveDataWordsList.value != null) {
-            model.filter(latterId)
+            binding.rcFragmentAlphabet.scrollToPosition(0)
         }
     }
 
@@ -89,6 +88,7 @@ class AlphabetFragment : Fragment() {
             "detailInfoWord",
             arrayOf(item.id.toString(), item.word, item.description, item.countSee)
         )
+//        activity?.supportFragmentManager?.setFragmentResult("detailInfoWord", bundleOf("detailInfoWord" to item))
         model.wordViewed(item)
         openFragment(DetailWordFragment.getInstance(args = bundle))
     }

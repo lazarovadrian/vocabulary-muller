@@ -27,16 +27,18 @@
                 android:id="@+id/save_favorite"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginStart="7dp"
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:contentDescription="@string/iconfavorite"
                 android:src="@drawable/ic_favorite_black"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/word"
                 app:layout_constraintTop_toTopOf="@id/word" />
 
             <TextView
                 android:id="@+id/word"
-                android:layout_width="wrap_content"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:text="@string/word"
                 android:textAppearance="?attr/textAppearanceHeadline6"
