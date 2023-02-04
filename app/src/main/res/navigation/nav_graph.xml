@@ -31,6 +31,8 @@
         <action
             android:id="@+id/action_detailWordFragment_to_favoriteFragment"
             app:destination="@id/favorite_switch_layout" />
+        <argument android:name="detail"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/alphabet_switch_layout"

@@ -13,7 +13,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="16dp"
+        app:strokeColor="@color/material_on_surface_stroke"
+        app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -21,36 +24,33 @@
 
             <TextView
                 android:id="@+id/word"
-                android:layout_width="wrap_content"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textSize="23sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="WORD" />
 
             <ImageButton
                 android:id="@+id/favorite"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="16dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="7dp"
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:contentDescription="@string/iconfavorite"
-                android:src="@drawable/ic_favorite_black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/colorOnBackground" />
+                app:layout_constraintStart_toEndOf="@+id/word"
+                app:layout_constraintTop_toTopOf="@id/word"/>
 
             <TextView
                 android:id="@+id/desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textAppearance="?attr/textAppearanceHeadline2"
-                android:textSize="18sp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/word"
@@ -62,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textAlignment="textEnd"
-                android:textAppearance="?attr/textAppearanceHeadline2"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/desc"
                 tools:text="23" />
@@ -74,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textAlignment="textEnd"
-                android:textAppearance="?attr/textAppearanceHeadline2"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintEnd_toStartOf="@id/countSee"
                 app:layout_constraintTop_toBottomOf="@id/desc"
                 android:text="@string/countSee" />
@@ -86,8 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textAlignment="textStart"
-                android:textAppearance="?attr/textAppearanceHeadline2"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/desc"
                 tools:text="ID Card" />

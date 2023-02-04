@@ -9,12 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lazarovstudio.vocabularymuller.adapter.AdapterFavoriteFragment
 import com.lazarovstudio.vocabularymuller.databinding.FragmentFavoriteBinding
+import com.lazarovstudio.vocabularymuller.model.Dictionary
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
-    private var adapter = AdapterFavoriteFragment()
+    private var adapter = AdapterFavoriteFragment(this)
     private val model: MainViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -33,9 +34,13 @@ class FavoriteFragment : Fragment() {
         binding.rcListFavorite.adapter = adapter
         binding.rcListFavorite.setHasFixedSize(true)
 
-        model.liveDataFavorite.observe(viewLifecycleOwner) { wordCard ->
-            adapter.submitList(wordCard)
+        model.liveDataFavorite.observe(viewLifecycleOwner) {
+            adapter.submitList(it.toMutableList())
         }
+    }
+
+    fun removeFavoriteWord(wordCard: Dictionary) {
+        model.onSaveFavorite(wordCard)
     }
 
     companion object {

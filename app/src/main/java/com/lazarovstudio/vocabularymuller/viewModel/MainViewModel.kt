@@ -1,6 +1,6 @@
 package com.lazarovstudio.vocabularymuller.viewModel
 
-import android.util.Log
+import android.widget.Filter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lazarovstudio.vocabularymuller.model.Dictionary
@@ -9,18 +9,19 @@ import com.lazarovstudio.vocabularymuller.model.FireBaseData
 class MainViewModel : ViewModel() {
     private val fireBaseData = FireBaseData()
 
-    private val _liveDataFavorite = MutableLiveData<List<Dictionary>>()
+    private val _liveDataFavorite = MutableLiveData<ArrayList<Dictionary>>()
     val liveDataFavorite get() = _liveDataFavorite
+
     //из базы словарь загружается и хранится полный список
     private val _liveDataWordsList = MutableLiveData<List<Dictionary>>()
     val liveDataWordsList get() = _liveDataWordsList
+
     //используется при поиске, часто обновляется
     private val _liveDataSearchWordsList = MutableLiveData<List<Dictionary>>()
     val liveDataSearchWordsList get() = _liveDataSearchWordsList
 
     init {
         loadListWord()
-        Log.d("ITEM_FILTER_INIT", _liveDataSearchWordsList.value.toString())
     }
 
     private fun loadListWord() {
@@ -31,20 +32,19 @@ class MainViewModel : ViewModel() {
         })
     }
 
-    fun saveFavorite(word: List<Dictionary>) {
-        val saveWord = ArrayList<Dictionary>()
-        for (favorite in word) {
-            saveWord.add(
-                Dictionary(
-                    favorite.id,
-                    favorite.description,
-                    favorite.word,
-                    favorite.countSee,
-                    save = true
-                )
-            )
+    fun onSaveFavorite(favoriteWord: Dictionary) {
+        if (liveDataFavorite.value == null) {
+            _liveDataFavorite.value = ArrayList()
         }
-        _liveDataFavorite.value = saveWord
+        val favoriteList = liveDataFavorite.value!!
+        if (favoriteList.contains(favoriteWord)) {
+            favoriteList.remove(favoriteWord)
+            favoriteWord.save = false
+        } else {
+            favoriteList.add(favoriteWord)
+            favoriteWord.save = true
+        }
+        _liveDataFavorite.value = favoriteList
     }
 
     fun wordViewed(word: Dictionary) {
@@ -53,18 +53,28 @@ class MainViewModel : ViewModel() {
         fireBaseData.wordViewed(word, counter)
     }
 
-    fun filter(char: String) {
-        _liveDataSearchWordsList.value = if (char.isEmpty()) {
-            return
-        } else {
-            val searchWord = char.lowercase()
-            val resultList = ArrayList<Dictionary>()
-            for (item in liveDataWordsList.value!!) {
-                if (item.word.lowercase().startsWith(searchWord)) {
-                    resultList.add(item)
+    fun getFilter(): Filter {
+        return exampleFilter
+    }
+
+    private val exampleFilter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filteredList = ArrayList<Dictionary>()
+            if (constraint != null) {
+                val filterPattern = constraint.toString().lowercase()
+                for (item in liveDataWordsList.value!!) {
+                    if (item.word.lowercase().startsWith(filterPattern)) {
+                        filteredList.add(item)
+                    }
                 }
             }
-            resultList
+            val results = FilterResults()
+            results.values = filteredList
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            _liveDataSearchWordsList.value = results?.values as ArrayList<Dictionary>
         }
     }
 }
