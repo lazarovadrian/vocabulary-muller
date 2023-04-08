@@ -29,7 +29,6 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rcListFavorite
         binding.rcListFavorite.layoutManager = LinearLayoutManager(context)
         binding.rcListFavorite.adapter = adapter
         binding.rcListFavorite.setHasFixedSize(true)

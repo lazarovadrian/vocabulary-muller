@@ -1,63 +1,96 @@
 package com.lazarovstudio.vocabularymuller.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
-import com.lazarovstudio.vocabularymuller.fragments.alphabetFragment.AlphabetFragment
 import com.lazarovstudio.vocabularymuller.model.Dictionary
 
-class AdapterAlphabetFragment(private val wordCard: AlphabetFragment) :
-    ListAdapter<Dictionary, AdapterAlphabetFragment.AlphabetHolder>(Comparator()) {
+class AdapterAlphabetFragment :
+    ListAdapter<Dictionary, AdapterAlphabetFragment.AlphabetHolder>(Comparator.DiffCallback),
+    View.OnClickListener {
 
-    class AlphabetHolder(private val binding: ListAlphabetBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun setData(
-            item: Dictionary,
-            wordCard: AlphabetFragment,
-        ) = with(binding) {
-            binding.word.text = item.word
-            binding.descriptions.text = item.description
-            binding.countViewed.text = item.countSee
+    private var wordCard: AdapterCallback<Dictionary>? = null
 
-            binding.card.setOnClickListener {
-                wordCard.showDetailFragment(item)
-            }
-
-            binding.saveFavorite.setOnClickListener {
-                wordCard.onSaveFavoriteClicked(item)
-                binding.saveFavorite.setImageResource(R.drawable.favorite_active)
-            }
-
-            if (item.save) {
-                binding.saveFavorite.setImageResource(R.drawable.favorite_active)
-            } else {
-                binding.saveFavorite.setImageResource(R.drawable.favorite_no_active)
-            }
-        }
+    fun attachCallback(callback: AdapterCallback<Dictionary>) {
+        this.wordCard = callback
     }
 
+    class AlphabetHolder(val binding: ListAlphabetBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlphabetHolder {
-        return AlphabetHolder(
-            ListAlphabetBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ListAlphabetBinding.inflate(inflater, parent, false)
+
+        binding.card.setOnClickListener(this)
+        binding.saveFavorite.setOnClickListener(this)
+
+        return AlphabetHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AlphabetHolder, position: Int) {
-        holder.setData(getItem(position), wordCard)
+        val itemWord = getItem(position)
+
+        with(holder.binding) {
+            word.text = itemWord.word
+            descriptions.text = itemWord.description
+            countViewed.text = itemWord.countSee
+
+            card.tag = itemWord.id
+            saveFavorite.tag = itemWord.id
+
+            if (itemWord.save) {
+                saveFavorite.setImageResource(R.drawable.favorite_active)
+            } else {
+                saveFavorite.setImageResource(R.drawable.favorite_no_active)
+            }
+
+            card.setOnClickListener {
+                val word = getItem(holder.bindingAdapterPosition)
+                wordCard?.showDetailFragment(word)
+            }
+
+            saveFavorite.setOnClickListener {
+                val word = getItem(holder.bindingAdapterPosition)
+                wordCard?.saveFavorite(word)
+
+                if (word.save) {
+                    saveFavorite.setImageResource(R.drawable.favorite_active)
+                } else {
+                    saveFavorite.setImageResource(R.drawable.favorite_no_active)
+                }
+            }
+        }
     }
 
-    class Comparator : DiffUtil.ItemCallback<Dictionary>() {
-        override fun areItemsTheSame(oldItem: Dictionary, newItem: Dictionary): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Dictionary, newItem: Dictionary): Boolean {
-            return oldItem == newItem
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.card -> {
+                val word = getItem(currentList.indexOfFirst { it.id == v.tag as Int })
+                wordCard?.showDetailFragment(word)
+            }
+            R.id.save_favorite -> {
+                val word = getItem(currentList.indexOfFirst { it.id == v.tag as Int })
+                wordCard?.saveFavorite(word)
+            }
         }
     }
 
+    data class Comparator(val id: Int, val name: String) {
+        companion object {
+            val DiffCallback = object : DiffUtil.ItemCallback<Dictionary>() {
+                override fun areItemsTheSame(oldItem: Dictionary, newItem: Dictionary) =
+                    oldItem.id == newItem.id
+
+                override fun areContentsTheSame(oldItem: Dictionary, newItem: Dictionary) =
+                    oldItem == newItem
+
+            }
+        }
+    }
 }

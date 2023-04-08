@@ -18,7 +18,8 @@
             app:destination="@id/detailWordFragment" />
         <argument
             android:name="letter"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue=""/>
         <action
             android:id="@+id/action_alphabetFragment_to_listAlphabetChar"
             app:destination="@id/alphabet_switch_layout" />

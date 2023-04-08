@@ -32,9 +32,9 @@ class DetailWordFragment : Fragment() {
 
         val detailWord = Dictionary(
             frDetailWord?.get(0)?.toInt(),
-            frDetailWord?.get(2) ?: "",
-            frDetailWord?.get(1) ?: "",
-            frDetailWord?.get(3) ?: "",
+            frDetailWord?.get(2).toString(),
+            frDetailWord?.get(1).toString(),
+            frDetailWord?.get(3).toString(),
             frDetailWord?.get(4).toBoolean()
         )
 
