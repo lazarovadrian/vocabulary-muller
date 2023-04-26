@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lazarovstudio.vocabularymuller.adapter.AdapterFavoriteFragment
+import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.databinding.FragmentFavoriteBinding
-import com.lazarovstudio.vocabularymuller.model.Dictionary
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class FavoriteFragment : Fragment() {
@@ -38,7 +38,7 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    fun removeFavoriteWord(wordCard: Dictionary) {
+    fun removeFavoriteWord(wordCard: DictionaryVO) {
         model.onSaveFavorite(wordCard)
     }
 

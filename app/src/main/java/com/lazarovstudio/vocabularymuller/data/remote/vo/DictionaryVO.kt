@@ -1,13 +1,14 @@
-package com.lazarovstudio.vocabularymuller.model
+@file:Suppress("PLUGIN_IS_NOT_ENABLED")
+
+package com.lazarovstudio.vocabularymuller.data.remote.vo
 
 import com.google.firebase.database.IgnoreExtraProperties
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 
 @IgnoreExtraProperties
 @Serializable
-data class Dictionary(
-    val id: Int? = null,
+data class DictionaryVO(
+    val id: Int = 0,
     @SerialName("description")
     val description: String = "",
     @SerialName("word")
@@ -16,4 +17,4 @@ data class Dictionary(
     var countSee: String = "0",
     @SerialName("save")
     var save: Boolean = false,
-)
+){}

@@ -11,9 +11,9 @@
     <string name="descriptions">Descriptions</string>
     <string name="word">Word</string>
     <string name="countViewed">просмотров: </string>
-    <string name="main_switch_layout">Главная</string>
+    <string name="main_switch_layout">Поиск</string>
     <string name="alphabet_switch_layout">Алфавит</string>
     <string name="support_site">Cоздано при поддержке slovaronline.com</string>
-    <string name="search">Идет поиск.....</string>
+    <string name="search">Начните поиск…</string>
     <string name="action_switch_layout">Расскладка алфавита</string>
 </resources>

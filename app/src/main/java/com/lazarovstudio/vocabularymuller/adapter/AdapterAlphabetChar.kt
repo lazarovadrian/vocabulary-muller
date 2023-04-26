@@ -21,8 +21,11 @@ class AdapterAlphabetChar :
         fun setData(item: Char) {
             btnChar.text = item.toString()
             btnChar.setOnClickListener {
-                val action = ListAlphabetCharDirections
-                    .actionListAlphabetCharToMainSwitchLayout(letter = btnChar.text.toString())
+                val action =
+                    ListAlphabetCharDirections.actionListAlphabetCharToAlphabetSearchListFragment(
+                        letter = btnChar.text.toString()
+                    )
+                //.actionList(letter = btnChar.text.toString())
                 view.findNavController().navigate(action)
             }
         }

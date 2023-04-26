@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
+import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
-import com.lazarovstudio.vocabularymuller.model.Dictionary
 
 class AdapterAlphabetFragment :
-    ListAdapter<Dictionary, AdapterAlphabetFragment.AlphabetHolder>(Comparator.DiffCallback),
+    ListAdapter<DictionaryVO, AdapterAlphabetFragment.AlphabetHolder>(Comparator.DiffCallback),
     View.OnClickListener {
 
-    private var wordCard: AdapterCallback<Dictionary>? = null
+    private var wordCard: AdapterCallback<DictionaryVO>? = null
 
-    fun attachCallback(callback: AdapterCallback<Dictionary>) {
+    fun attachCallback(callback: AdapterCallback<DictionaryVO>) {
         this.wordCard = callback
     }
 
@@ -74,6 +74,7 @@ class AdapterAlphabetFragment :
                 val word = getItem(currentList.indexOfFirst { it.id == v.tag as Int })
                 wordCard?.showDetailFragment(word)
             }
+
             R.id.save_favorite -> {
                 val word = getItem(currentList.indexOfFirst { it.id == v.tag as Int })
                 wordCard?.saveFavorite(word)
@@ -83,11 +84,11 @@ class AdapterAlphabetFragment :
 
     data class Comparator(val id: Int, val name: String) {
         companion object {
-            val DiffCallback = object : DiffUtil.ItemCallback<Dictionary>() {
-                override fun areItemsTheSame(oldItem: Dictionary, newItem: Dictionary) =
+            val DiffCallback = object : DiffUtil.ItemCallback<DictionaryVO>() {
+                override fun areItemsTheSame(oldItem: DictionaryVO, newItem: DictionaryVO) =
                     oldItem.id == newItem.id
 
-                override fun areContentsTheSame(oldItem: Dictionary, newItem: Dictionary) =
+                override fun areContentsTheSame(oldItem: DictionaryVO, newItem: DictionaryVO) =
                     oldItem == newItem
 
             }

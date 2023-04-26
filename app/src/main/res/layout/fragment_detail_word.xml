@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frDetailWord"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".fragments.DetailWordFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/word_item"
@@ -34,8 +35,8 @@
 
             <ImageButton
                 android:id="@+id/favorite"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="7dp"
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"

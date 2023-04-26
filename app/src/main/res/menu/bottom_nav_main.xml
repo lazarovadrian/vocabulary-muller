@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/main_switch_layout"
-        android:icon="@drawable/home"
-        android:title="@string/main_switch_layout" />
-    <item
-        android:id="@+id/alphabet_switch_layout"
+        android:id="@+id/listAlphabetChar"
         android:icon="@drawable/abc"
         android:title="@string/alphabet_switch_layout" />
     <item
-        android:id="@+id/favorite_switch_layout"
+        android:id="@+id/alphabet_search_list_fragment"
+        android:icon="?android:attr/actionModeWebSearchDrawable"
+        android:title="@string/main_switch_layout" />
+    <item
+        android:id="@+id/favoriteFragment"
         android:icon="@drawable/favorite_no_active"
         android:title="@string/favorite_switch_layout" />
 </menu>

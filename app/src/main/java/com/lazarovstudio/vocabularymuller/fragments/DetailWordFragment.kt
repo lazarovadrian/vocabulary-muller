@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.lazarovstudio.vocabularymuller.R
+import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.databinding.FragmentDetailWordBinding
-import com.lazarovstudio.vocabularymuller.model.Dictionary
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class DetailWordFragment : Fragment() {
@@ -30,30 +30,49 @@ class DetailWordFragment : Fragment() {
 
         val frDetailWord = arguments?.getStringArrayList("detailInfoWord")
 
-        val detailWord = Dictionary(
-            frDetailWord?.get(0)?.toInt(),
-            frDetailWord?.get(2).toString(),
-            frDetailWord?.get(1).toString(),
-            frDetailWord?.get(3).toString(),
-            frDetailWord?.get(4).toBoolean()
-        )
-
-        binding.word.text = detailWord.word
-        binding.desc.text = detailWord.description
-        binding.countSee.text = detailWord.countSee
-        binding.idCard.text = detailWord.id.toString()
-
-        binding.favorite.setOnClickListener {
-            model.onSaveFavorite(detailWord)
-            binding.favorite.setImageResource(R.drawable.favorite_active)
+        val detailWord = frDetailWord?.get(0)?.let {
+            DictionaryVO(
+                it.toInt(),
+                frDetailWord[2].toString(),
+                frDetailWord[1].toString(),
+                frDetailWord[3].toString(),
+                frDetailWord[4].toBoolean()
+            )
         }
 
+        if (detailWord != null) {
+            binding.word.text = detailWord.word
+        }
+        if (detailWord != null) {
+            binding.desc.text = detailWord.description
+        }
+        if (detailWord != null) {
+            binding.countSee.text = detailWord.countSee
+        }
+        if (detailWord != null) {
+            binding.idCard.text = detailWord.id.toString()
+        }
+
+        if (detailWord != null) {
+            isFavorite(detailWord)
+        }
+
+        binding.favorite.setOnClickListener {
+            if (detailWord != null) {
+                model.onSaveFavorite(detailWord)
+            }
+            if (detailWord != null) {
+                isFavorite(detailWord)
+            }
+        }
+    }
+
+    private fun isFavorite(detailWord: DictionaryVO) {
         if (detailWord.save) {
             binding.favorite.setImageResource(R.drawable.favorite_active)
         } else {
             binding.favorite.setImageResource(R.drawable.favorite_no_active)
         }
-
     }
 
     companion object {

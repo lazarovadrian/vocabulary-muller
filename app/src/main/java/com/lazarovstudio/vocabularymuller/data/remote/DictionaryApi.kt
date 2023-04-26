@@ -1,4 +1,4 @@
-package com.lazarovstudio.vocabularymuller.model
+package com.lazarovstudio.vocabularymuller.data.remote
 
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
@@ -8,17 +8,18 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.lazarovstudio.vocabularymuller.constants.DICTIONARY_NODE
 import com.lazarovstudio.vocabularymuller.constants.MAIN_NODE
+import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 
-class FireBaseData {
+class DictionaryApi {
     private val dbPathMain = Firebase.database.getReference(MAIN_NODE)
 
     //получаем данные с базы данных
     fun getDictionary(readDataInterface: ReadDataInterface) {
         dbPathMain.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val dicArray = ArrayList<Dictionary>()
+                val dicArray = ArrayList<DictionaryVO>()
                 for (item in snapshot.children) {
-                    val dic = item.child(DICTIONARY_NODE).getValue(Dictionary::class.java)
+                    val dic = item.child(DICTIONARY_NODE).getValue(DictionaryVO::class.java)
                     dicArray.add(dic!!)
                 }
                 readDataInterface.readData(dicArray)
@@ -31,10 +32,10 @@ class FireBaseData {
     }
 
     //запись в базу количества просмотров
-    fun wordViewed(word: Dictionary, counter: Int) {
+    fun wordViewed(word: DictionaryVO, counter: Int) {
         dbPathMain.child(word.id.toString())
             .child(DICTIONARY_NODE).setValue(
-                Dictionary(
+                DictionaryVO(
                     word.id,
                     word.description,
                     word.word,
@@ -45,6 +46,6 @@ class FireBaseData {
     }
 
     interface ReadDataInterface {
-        fun readData(list: List<Dictionary>)
+        fun readData(list: List<DictionaryVO>)
     }
 }
