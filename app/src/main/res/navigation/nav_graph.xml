@@ -13,17 +13,17 @@
 
     <fragment
         android:id="@+id/alphabet_search_list_fragment"
-        android:name="com.lazarovstudio.vocabularymuller.fragments.alphabetFragment.AlphabetFragment"
+        android:name="com.lazarovstudio.vocabularymuller.fragments.AlphabetFragment"
         android:label="AlphabetFragment">
         <action
             android:id="@+id/action_alphabetFragment_to_detailWordFragment"
-            app:destination="@id/detailWordFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/detailWordFragment" />
         <argument
             android:name="letter"
-            app:argType="string"
-            android:defaultValue="a"/>
+            android:defaultValue="a"
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/detailWordFragment"
         android:name="com.lazarovstudio.vocabularymuller.fragments.DetailWordFragment"
@@ -32,6 +32,7 @@
             android:name="detail"
             app:argType="string[]" />
     </fragment>
+
     <fragment
         android:id="@+id/listAlphabetChar"
         android:name="com.lazarovstudio.vocabularymuller.fragments.ListAlphabetChar"
@@ -39,8 +40,7 @@
         tools:layout="@layout/rc_fragment_alphabet_char">
         <action
             android:id="@+id/action_listAlphabetChar_to_alphabet_search_list_fragment"
-            app:destination="@id/alphabet_search_list_fragment"
-            app:popUpTo="@id/listAlphabetChar"
-            app:popUpToInclusive="true" />
+            app:destination="@id/alphabet_search_list_fragment" />
     </fragment>
+
 </navigation>

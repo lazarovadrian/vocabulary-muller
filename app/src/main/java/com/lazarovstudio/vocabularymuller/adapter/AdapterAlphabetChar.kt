@@ -3,7 +3,6 @@ package com.lazarovstudio.vocabularymuller.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
@@ -16,17 +15,15 @@ class AdapterAlphabetChar :
 
     class AdapterViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ListAlphabetCharBinding.bind(view)
-        private val btnChar: Button = binding.btnChar
 
         fun setData(item: Char) {
-            btnChar.text = item.toString()
-            btnChar.setOnClickListener {
-                val action =
+            binding.btnChar.text = item.toString()
+            binding.btnChar.setOnClickListener {
+                view.findNavController().navigate(
                     ListAlphabetCharDirections.actionListAlphabetCharToAlphabetSearchListFragment(
-                        letter = btnChar.text.toString()
+                        letter = item.toString()
                     )
-                //.actionList(letter = btnChar.text.toString())
-                view.findNavController().navigate(action)
+                )
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.lazarovstudio.vocabularymuller.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +25,7 @@ class ListAlphabetChar : Fragment() {
     private val binding get() = _binding!!
     private var adapter = AdapterAlphabetChar()
     private var isLinearLayoutManager = true
-    private val model: MainViewModel by activityViewModels()
+    private val model: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +71,6 @@ class ListAlphabetChar : Fragment() {
                 showInfo = item.isEmpty(),
                 showAlphabet = item.isNotEmpty()
             )
-            Log.d("DATA_getList", "START_GET-LIST()")
         }
     }
 

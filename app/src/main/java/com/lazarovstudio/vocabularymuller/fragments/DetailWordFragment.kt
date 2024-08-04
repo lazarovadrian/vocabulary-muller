@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
+import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.FragmentDetailWordBinding
-import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
+import com.lazarovstudio.vocabularymuller.viewModel.FavoriteViewModel
 
 class DetailWordFragment : Fragment() {
     private var _binding: FragmentDetailWordBinding? = null
     private val binding get() = _binding!!
-    private val model: MainViewModel by activityViewModels()
+    private val model: FavoriteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,26 +43,23 @@ class DetailWordFragment : Fragment() {
 
         if (detailWord != null) {
             binding.word.text = detailWord.word
-        }
-        if (detailWord != null) {
             binding.desc.text = detailWord.description
-        }
-        if (detailWord != null) {
             binding.countSee.text = detailWord.countSee
-        }
-        if (detailWord != null) {
             binding.idCard.text = detailWord.id.toString()
-        }
-
-        if (detailWord != null) {
             isFavorite(detailWord)
         }
 
         binding.favorite.setOnClickListener {
             if (detailWord != null) {
-                model.onSaveFavorite(detailWord)
-            }
-            if (detailWord != null) {
+                val favoriteItem = FavoriteVO(
+                    detailWord.id,
+                    detailWord.description,
+                    detailWord.word,
+                    detailWord.countSee,
+                    detailWord.save
+                )
+                model.onSaveFavorite(favoriteItem)
+
                 isFavorite(detailWord)
             }
         }

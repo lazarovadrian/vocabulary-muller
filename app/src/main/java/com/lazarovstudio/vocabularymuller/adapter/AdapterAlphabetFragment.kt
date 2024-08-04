@@ -1,5 +1,6 @@
 package com.lazarovstudio.vocabularymuller.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,11 +58,13 @@ class AdapterAlphabetFragment :
 
             saveFavorite.setOnClickListener {
                 val word = getItem(holder.bindingAdapterPosition)
-                wordCard?.saveFavorite(word)
-
                 if (word.save) {
+                    Log.d("DATA_FAV_TRUE",word.save.toString())
+                    wordCard?.saveFavorite(word)
                     saveFavorite.setImageResource(R.drawable.favorite_active)
                 } else {
+                    Log.d("DATA_FAV_FALSE",word.save.toString())
+                    wordCard?.saveFavorite(word)
                     saveFavorite.setImageResource(R.drawable.favorite_no_active)
                 }
             }
@@ -71,12 +74,12 @@ class AdapterAlphabetFragment :
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.card -> {
-                val word = getItem(currentList.indexOfFirst { it.id == v.tag as Int })
+                val word = getItem(currentList.indexOfFirst { it.id == (v.tag as Int) })
                 wordCard?.showDetailFragment(word)
             }
 
             R.id.save_favorite -> {
-                val word = getItem(currentList.indexOfFirst { it.id == v.tag as Int })
+                val word = getItem(currentList.indexOfFirst { it.id == (v.tag as Int) })
                 wordCard?.saveFavorite(word)
             }
         }

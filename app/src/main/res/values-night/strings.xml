@@ -5,8 +5,8 @@
     <string name="first_word">Словарь загружен, можете начать поиск</string>
     <string name="loading">Словарь загружается</string>
     <string name="iconfavorite">icon favorite</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="favoritet">Избранные слова</string>
+    <string name="favorite">Избранных слов - %1$d</string>
+    <string name="notFavorite">Тут могут быть избранные слова</string>
     <string name="countSee">просмотров:</string>
     <string name="descriptions">Descriptions</string>
     <string name="word">Word</string>

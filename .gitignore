@@ -1,5 +1,13 @@
 *.iml
 .gradle
+gradle/caches
+gradle/.tmp
+gradle/android
+gradle/daemon
+gradle/jdks
+gradle/kotlin-profile
+gradle/native
+gradle/wrapper/dists
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -16,3 +24,11 @@
 .cxx
 .gitignore
 /app/.gitignore
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*_BACKUP_*.txt
+*_BASE_*.txt
+*_LOCAL_*.txt
+*_REMOTE_*.txt

@@ -1,9 +1,7 @@
-@file:Suppress("PLUGIN_IS_NOT_ENABLED")
-
 package com.lazarovstudio.vocabularymuller.data.remote.vo
 
 import androidx.room.Entity
-import androidx.room.Index
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.serialization.SerialName
@@ -11,14 +9,17 @@ import kotlinx.serialization.Serializable
 
 @IgnoreExtraProperties
 @Serializable
-@Entity (
-    tableName = "dictionary",
-// Ускоряет поиск
-    indices = [
-        Index("word")
-    ]
+@Entity(
+    tableName = "favorite_words",
+    foreignKeys = [ForeignKey(
+        entity = DictionaryVO::class,
+        parentColumns = ["id"],
+        childColumns = ["id"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE
+    )]
 )
-data class DictionaryVO(
+data class FavoriteVO(
     @SerialName("id")
     @PrimaryKey val id: Int? = null,
     @SerialName("description")
@@ -30,4 +31,3 @@ data class DictionaryVO(
     @SerialName("save")
     var save: Boolean = false,
 )
-
