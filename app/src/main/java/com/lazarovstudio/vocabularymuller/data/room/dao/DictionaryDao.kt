@@ -3,9 +3,11 @@ package com.lazarovstudio.vocabularymuller.data.room.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
+import kotlinx.coroutines.flow.Flow
 
 /*
 Данный интерфейс будет взаимодействовать с базой данных с помощью специальных методов.
@@ -23,12 +25,15 @@ interface DictionaryDao {
     @Query("SELECT COUNT(*) FROM dictionary")
     suspend fun getDictionaryCount(): Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveFavoriteWord(dictionaryFavorites: FavoriteVO)
 
     @Query("SELECT * FROM favorite_words ORDER BY word ASC")
-    suspend fun getListFavorite(): List<FavoriteVO>
+    fun getListFavorite(): Flow<List<FavoriteVO>>
 
     @Delete
     suspend fun removeFavoriteWord(rvWord: FavoriteVO)
+
+    @Query("SELECT * FROM favorite_words WHERE uid = :uid")
+    suspend fun getFavoriteWord(uid: Int): FavoriteVO
 }

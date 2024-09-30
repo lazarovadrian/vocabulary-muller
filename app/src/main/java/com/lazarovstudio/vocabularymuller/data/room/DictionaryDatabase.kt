@@ -16,7 +16,7 @@ import com.lazarovstudio.vocabularymuller.data.room.dao.DictionaryDao
     В самом классе создан абстрактный метод, который возвращает dao-интерфейс.
  */
 
-@Database(entities = [DictionaryVO::class, FavoriteVO::class], version = 5)
+@Database(entities = [DictionaryVO::class, FavoriteVO::class], version = 6)
 abstract class DictionaryDatabase : RoomDatabase() {
     abstract fun dictionaryDao(): DictionaryDao
 }

@@ -8,34 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
-import com.lazarovstudio.vocabularymuller.fragments.FavoriteFragment
 
-class AdapterFavoriteFragment(private val wordCard: FavoriteFragment) :
+class AdapterFavoriteFragment(
+    private val onFavoriteClick: (isFavorite: Boolean, favoriteWord: FavoriteVO) -> Unit
+) :
     ListAdapter<FavoriteVO, AdapterFavoriteFragment.FavoriteHolder>(Comparator()) {
-
-    class FavoriteHolder(private val binding: ListAlphabetBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun itemCardWord(
-            favoriteCard: FavoriteVO,
-            wordCard: FavoriteFragment
-        ) = with(binding) {
-            word.text = favoriteCard.word
-            descriptions.text = favoriteCard.description
-            countViewed.text = favoriteCard.countSee
-
-            if (favoriteCard.save){
-                binding.saveFavorite.setImageResource(R.drawable.favorite_active)
-            }else{
-                wordCard.removeFavoriteWord(favoriteCard)
-            }
-
-            binding.saveFavorite.setOnClickListener {
-                wordCard.removeFavoriteWord(favoriteCard)
-            }
-        }
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
         return FavoriteHolder(
@@ -43,8 +20,30 @@ class AdapterFavoriteFragment(private val wordCard: FavoriteFragment) :
         )
     }
 
+    inner class FavoriteHolder(var binding: ListAlphabetBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
-        holder.itemCardWord(getItem(position), wordCard)
+        val wordItem = getItem(position)
+
+        with(holder.binding) {
+            word.text = wordItem.word
+            descriptions.text = wordItem.description
+            countViewed.text = wordItem.countSee
+
+            saveFavorite.tag = wordItem.uid
+            if (wordItem.isFavorite) {
+                saveFavorite.setImageResource(R.drawable.favorite_active)
+            } else {
+                saveFavorite.setImageResource(R.drawable.favorite_no_active)
+            }
+
+            saveFavorite.setOnClickListener {
+                val word = getItem(currentList.indexOfFirst { it.uid == (saveFavorite.tag as Int) })
+                word.isFavorite = false
+                onFavoriteClick(word.isFavorite, word)
+            }
+        }
     }
 
     class Comparator : DiffUtil.ItemCallback<FavoriteVO>() {

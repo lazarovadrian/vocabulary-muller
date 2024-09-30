@@ -1,6 +1,5 @@
 package com.lazarovstudio.vocabularymuller.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
+import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
+import com.lazarovstudio.vocabularymuller.mappers.toFavorite
 
-class AdapterAlphabetFragment :
+//TODO: если слово добавлено в избранное или удалено, не обновляется в основной базе isFavorite
+class AdapterAlphabetFragment(
+    private val onFavoriteClick: (isFavorite: Boolean, favoriteWord: FavoriteVO) -> Unit
+) :
     ListAdapter<DictionaryVO, AdapterAlphabetFragment.AlphabetHolder>(Comparator.DiffCallback),
     View.OnClickListener {
 
@@ -21,12 +25,17 @@ class AdapterAlphabetFragment :
         this.wordCard = callback
     }
 
-    class AlphabetHolder(val binding: ListAlphabetBinding) :
+    inner class AlphabetHolder(val binding: ListAlphabetBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlphabetHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ListAlphabetBinding.inflate(inflater, parent, false)
+
+        val binding = ListAlphabetBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
         binding.card.setOnClickListener(this)
         binding.saveFavorite.setOnClickListener(this)
@@ -43,9 +52,9 @@ class AdapterAlphabetFragment :
             countViewed.text = itemWord.countSee
 
             card.tag = itemWord.id
-            saveFavorite.tag = itemWord.id
+            saveFavorite.tag = itemWord.uid
 
-            if (itemWord.save) {
+            if (itemWord.isFavorite) {
                 saveFavorite.setImageResource(R.drawable.favorite_active)
             } else {
                 saveFavorite.setImageResource(R.drawable.favorite_no_active)
@@ -57,17 +66,19 @@ class AdapterAlphabetFragment :
             }
 
             saveFavorite.setOnClickListener {
-                val word = getItem(holder.bindingAdapterPosition)
-                if (word.save) {
-                    Log.d("DATA_FAV_TRUE",word.save.toString())
-                    wordCard?.saveFavorite(word)
+                val word = getItem(currentList.indexOfFirst { it.uid == (saveFavorite.tag as Int) })
+
+                word.isFavorite = !word.isFavorite
+
+                if (word.isFavorite) {
                     saveFavorite.setImageResource(R.drawable.favorite_active)
                 } else {
-                    Log.d("DATA_FAV_FALSE",word.save.toString())
-                    wordCard?.saveFavorite(word)
                     saveFavorite.setImageResource(R.drawable.favorite_no_active)
                 }
+
+                onFavoriteClick(word.isFavorite, word.toFavorite())
             }
+
         }
     }
 
@@ -76,11 +87,6 @@ class AdapterAlphabetFragment :
             R.id.card -> {
                 val word = getItem(currentList.indexOfFirst { it.id == (v.tag as Int) })
                 wordCard?.showDetailFragment(word)
-            }
-
-            R.id.save_favorite -> {
-                val word = getItem(currentList.indexOfFirst { it.id == (v.tag as Int) })
-                wordCard?.saveFavorite(word)
             }
         }
     }

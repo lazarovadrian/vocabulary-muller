@@ -33,7 +33,6 @@ class MainViewModel : ViewModel(){
                 val countDictionary = dictionaryRealization.getDictionaryCount()
                 if (countDictionary > 0) {
                     _liveDataWordsList.value = dictionaryRealization.allDictionary()
-                    Log.d("DATA_LIVEDATA", liveDataWordsList.value.toString())
                 } else {
                     loadListWord()
                 }

@@ -27,46 +27,48 @@
                 android:id="@+id/save_favorite"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="7dp"
                 android:adjustViewBounds="true"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:contentDescription="@string/iconfavorite"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/word"
-                app:layout_constraintTop_toTopOf="@id/word" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/word"
-                android:layout_width="290dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:text="@string/word"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/save_favorite"/>
 
             <TextView
                 android:id="@+id/descriptions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:text="@string/descriptions"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/txtViewed"
+                app:layout_constraintEnd_toStartOf="@+id/iconViewed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/word" />
 
-            <TextView
-                android:id="@+id/txtViewed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/countViewed"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?android:attr/textColorSecondary"
+
+            <ImageView
+                android:id="@+id/iconViewed"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/see_icon"
+                android:contentDescription="@string/icon_count_see"
+                app:layout_constraintBottom_toBottomOf="@id/countViewed"
                 app:layout_constraintEnd_toStartOf="@id/countViewed"
-                app:layout_constraintTop_toBottomOf="@id/word" />
+                app:layout_constraintTop_toTopOf="@id/countViewed" />
 
             <TextView
                 android:id="@+id/countViewed"

@@ -36,11 +36,12 @@ class DictionaryApi {
         dbPathMain.child(word.id.toString())
             .child(DICTIONARY_NODE).setValue(
                 DictionaryVO(
+                    word.uid,
                     word.id,
                     word.description,
                     word.word,
                     counter.toString(),
-                    word.save
+                    word.isFavorite
                 )
             )
     }

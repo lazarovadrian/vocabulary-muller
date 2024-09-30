@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.adapter.AdapterAlphabetChar
 import com.lazarovstudio.vocabularymuller.databinding.RcFragmentAlphabetCharBinding
+import com.lazarovstudio.vocabularymuller.viewModel.FavoriteViewModel
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class ListAlphabetChar : Fragment() {

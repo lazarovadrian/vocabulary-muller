@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
-import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.FragmentDetailWordBinding
+import com.lazarovstudio.vocabularymuller.mappers.toFavorite
 import com.lazarovstudio.vocabularymuller.viewModel.FavoriteViewModel
 
+//TODO: создать viewModel получать данные из базы
 class DetailWordFragment : Fragment() {
     private var _binding: FragmentDetailWordBinding? = null
     private val binding get() = _binding!!
@@ -33,40 +34,34 @@ class DetailWordFragment : Fragment() {
 
         val detailWord = frDetailWord?.get(0)?.let {
             DictionaryVO(
-                it.toInt(),
+                frDetailWord[0].toInt(),
+                frDetailWord[1].toInt(),
                 frDetailWord[2].toString(),
-                frDetailWord[1].toString(),
                 frDetailWord[3].toString(),
-                frDetailWord[4].toBoolean()
+                frDetailWord[4].toString(),
+                frDetailWord[5].toBoolean()
             )
         }
 
         if (detailWord != null) {
-            binding.word.text = detailWord.word
+            binding.idCard.text = getString(R.string.idWord, detailWord.id)
             binding.desc.text = detailWord.description
+            binding.word.text = detailWord.word
             binding.countSee.text = detailWord.countSee
-            binding.idCard.text = detailWord.id.toString()
             isFavorite(detailWord)
         }
 
         binding.favorite.setOnClickListener {
             if (detailWord != null) {
-                val favoriteItem = FavoriteVO(
-                    detailWord.id,
-                    detailWord.description,
-                    detailWord.word,
-                    detailWord.countSee,
-                    detailWord.save
-                )
-                model.onSaveFavorite(favoriteItem)
-
+                detailWord.isFavorite = !detailWord.isFavorite
+                model.onFavoriteClick(detailWord.isFavorite, detailWord.toFavorite())
                 isFavorite(detailWord)
             }
         }
     }
 
     private fun isFavorite(detailWord: DictionaryVO) {
-        if (detailWord.save) {
+        if (detailWord.isFavorite) {
             binding.favorite.setImageResource(R.drawable.favorite_active)
         } else {
             binding.favorite.setImageResource(R.drawable.favorite_no_active)
