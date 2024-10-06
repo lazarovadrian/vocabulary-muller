@@ -11,6 +11,8 @@ import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.data.room.Dependencies.dictionaryRealization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class MainViewModel : ViewModel() {
     private val dictionaryApi = DictionaryApi()
@@ -26,20 +28,27 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val countDictionary = dictionaryRealization.getDictionaryCount()
-                if (countDictionary > 0) { } else {
-                    dictionaryApi.getDictionary(object : DictionaryApi.ReadDataInterface {
-                        override fun readData(list: List<DictionaryVO>) {
-                            viewModelScope.launch(Dispatchers.IO) {
-                                dictionaryRealization.insertDictionary(list)
-                            }
-                        }
-                    })
+                if (countDictionary == 0) {
+                    // Асинхронно получаем данные с API
+                    val dictionaryList = getDictionaryFromApi()
+                    // Вставляем данные в базу данных
+                    dictionaryRealization.insertDictionary(dictionaryList)
                 }
             } catch (e: Exception) {
                 Log.e("DATA_ERROR", "An error occurred: ${e.message}")
             }
         }
     }
+
+    // Преобразуем API вызов в suspend функцию
+    private suspend fun getDictionaryFromApi(): List<DictionaryVO> =
+        suspendCoroutine { continuation ->
+            dictionaryApi.getDictionary(object : DictionaryApi.ReadDataInterface {
+                override fun readData(list: List<DictionaryVO>) {
+                    continuation.resume(list)
+                }
+            })
+        }
 
     fun onFavoriteClick(isFavorite: Boolean, favoriteWord: FavoriteVO) {
         viewModelScope.launch(Dispatchers.IO) {
