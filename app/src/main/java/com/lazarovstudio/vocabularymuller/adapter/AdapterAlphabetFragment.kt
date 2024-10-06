@@ -1,5 +1,6 @@
 package com.lazarovstudio.vocabularymuller.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
 import com.lazarovstudio.vocabularymuller.mappers.toFavorite
 
-//TODO: если слово добавлено в избранное или удалено, не обновляется в основной базе isFavorite
 class AdapterAlphabetFragment(
     private val onFavoriteClick: (isFavorite: Boolean, favoriteWord: FavoriteVO) -> Unit
 ) :
@@ -54,6 +54,8 @@ class AdapterAlphabetFragment(
             card.tag = itemWord.id
             saveFavorite.tag = itemWord.uid
 
+            Log.d("DATA_ADAPTER", itemWord.id.toString())
+
             if (itemWord.isFavorite) {
                 saveFavorite.setImageResource(R.drawable.favorite_active)
             } else {
@@ -66,16 +68,14 @@ class AdapterAlphabetFragment(
             }
 
             saveFavorite.setOnClickListener {
-                val word = getItem(currentList.indexOfFirst { it.uid == (saveFavorite.tag as Int) })
-
+                val word =
+                    getItem(currentList.indexOfFirst { it.uid == (saveFavorite.tag as Long) })
                 word.isFavorite = !word.isFavorite
-
                 if (word.isFavorite) {
                     saveFavorite.setImageResource(R.drawable.favorite_active)
                 } else {
                     saveFavorite.setImageResource(R.drawable.favorite_no_active)
                 }
-
                 onFavoriteClick(word.isFavorite, word.toFavorite())
             }
 
@@ -85,7 +85,7 @@ class AdapterAlphabetFragment(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.card -> {
-                val word = getItem(currentList.indexOfFirst { it.id == (v.tag as Int) })
+                val word = getItem(currentList.indexOfFirst { it.id == (v.tag as Long) })
                 wordCard?.showDetailFragment(word)
             }
         }

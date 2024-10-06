@@ -5,23 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
-import com.lazarovstudio.vocabularymuller.data.room.Dependencies
+import com.lazarovstudio.vocabularymuller.data.room.Dependencies.dictionaryRealization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel : ViewModel() {
-    private val repository = Dependencies.dictionaryRealization
-    private val _liveDataGetFavorites: LiveData<List<FavoriteVO>> = repository.getListFavorite().asLiveData()
+    private val repository = dictionaryRealization
+    private val _liveDataGetFavorites: LiveData<List<FavoriteVO>> =
+        repository.getListFavorite().asLiveData()
     val liveDataGetFavorites: LiveData<List<FavoriteVO>> = _liveDataGetFavorites
 
-    fun onFavoriteClick(isFavorite: Boolean,favoriteWord: FavoriteVO){
-        viewModelScope.launch(Dispatchers.IO ) {
-            if(isFavorite){
-                repository.saveFavoriteWord(favoriteWord)
-            }else{
-                val rmFavorite = repository.getFavorite(favoriteWord.uid!!)
-                repository.removeFavoriteWord(rmFavorite)
-            }
+    fun onFavoriteClick( isFavorite: Boolean, favoriteWord: FavoriteVO) {
+        viewModelScope.launch(Dispatchers.IO) {
+           repository.addOrRemoveFavorite(word = favoriteWord, isFavorite = isFavorite)
         }
     }
 }

@@ -10,14 +10,14 @@ plugins {
 
 android {
     namespace 'com.lazarovstudio.vocabularymuller'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.lazarovstudio.vocabularymuller"
         minSdk 24
-        targetSdk 34
-        versionCode 7
-        versionName "2.1.50"
+        targetSdk 35
+        versionCode 8
+        versionName "2.1.70"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

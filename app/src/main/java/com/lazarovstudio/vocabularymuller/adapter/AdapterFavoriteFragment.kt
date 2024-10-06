@@ -30,8 +30,8 @@ class AdapterFavoriteFragment(
             word.text = wordItem.word
             descriptions.text = wordItem.description
             countViewed.text = wordItem.countSee
-
             saveFavorite.tag = wordItem.uid
+
             if (wordItem.isFavorite) {
                 saveFavorite.setImageResource(R.drawable.favorite_active)
             } else {
@@ -39,8 +39,11 @@ class AdapterFavoriteFragment(
             }
 
             saveFavorite.setOnClickListener {
-                val word = getItem(currentList.indexOfFirst { it.uid == (saveFavorite.tag as Int) })
+                val word =
+                    getItem(currentList.indexOfFirst { it.uid == (saveFavorite.tag as Long) })
+
                 word.isFavorite = false
+                saveFavorite.setImageResource(R.drawable.favorite_no_active)
                 onFavoriteClick(word.isFavorite, word)
             }
         }

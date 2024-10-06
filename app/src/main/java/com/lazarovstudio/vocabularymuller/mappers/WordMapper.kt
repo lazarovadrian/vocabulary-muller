@@ -5,11 +5,11 @@ import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 
 fun DictionaryVO.toFavorite(): FavoriteVO {
     return FavoriteVO(
-        uid = uid,
-        id = id,
-        description = description,
-        word = word,
         countSee = countSee,
-        isFavorite = isFavorite
+        description = description,
+        isFavorite = isFavorite,
+        id = id,
+        uid = uid,
+        word = word
     )
 }

@@ -10,17 +10,20 @@ import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import kotlinx.coroutines.flow.Flow
 
 /*
-Данный интерфейс будет взаимодействовать с базой данных с помощью специальных методов.
+    Данный интерфейс будет взаимодействовать с базой данных с помощью специальных методов.
 */
 
 @Dao
 interface DictionaryDao {
 
     @Query("SELECT * FROM dictionary ORDER BY word ASC")
-    suspend fun getAllDictionary(): List<DictionaryVO>
+    fun getAllDictionaryAsFlow() : Flow<List<DictionaryVO>>
 
-    @Insert(entity = DictionaryVO::class)
+    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = DictionaryVO::class)
     suspend fun insertAll(dictionary: List<DictionaryVO>)
+
+    @Query("UPDATE dictionary SET countSee = :countSee WHERE uid = :uid")
+    suspend fun updateCountSee(uid: Long?, countSee: String)
 
     @Query("SELECT COUNT(*) FROM dictionary")
     suspend fun getDictionaryCount(): Int
@@ -31,9 +34,12 @@ interface DictionaryDao {
     @Query("SELECT * FROM favorite_words ORDER BY word ASC")
     fun getListFavorite(): Flow<List<FavoriteVO>>
 
+    @Query("UPDATE dictionary SET isFavorite = :isFavorite WHERE uid = :uid")
+    suspend fun updateFavorite(uid: Long?, isFavorite: Boolean)
+
     @Delete
     suspend fun removeFavoriteWord(rvWord: FavoriteVO)
 
     @Query("SELECT * FROM favorite_words WHERE uid = :uid")
-    suspend fun getFavoriteWord(uid: Int): FavoriteVO
+    suspend fun getFavoriteWord(uid: Long?): FavoriteVO
 }

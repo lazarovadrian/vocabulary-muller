@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lazarovstudio.vocabularymuller.R
 import com.lazarovstudio.vocabularymuller.adapter.AdapterAlphabetChar
 import com.lazarovstudio.vocabularymuller.databinding.RcFragmentAlphabetCharBinding
-import com.lazarovstudio.vocabularymuller.viewModel.FavoriteViewModel
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 class ListAlphabetChar : Fragment() {
@@ -34,7 +33,6 @@ class ListAlphabetChar : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = RcFragmentAlphabetCharBinding.inflate(inflater, container, false)
-        getList()
         return binding.root
     }
 
@@ -63,9 +61,7 @@ class ListAlphabetChar : Fragment() {
             }
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-    }
 
-    private fun getList() {
         model.liveDataWordsList.observe(viewLifecycleOwner) { item ->
             progress(
                 showProgress = item.isEmpty(),

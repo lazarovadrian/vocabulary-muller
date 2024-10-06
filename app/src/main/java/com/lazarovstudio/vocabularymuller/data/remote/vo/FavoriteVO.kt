@@ -19,10 +19,10 @@ import kotlinx.serialization.Serializable
     )]
 )
 data class FavoriteVO(
-    @PrimaryKey(autoGenerate = true) val uid: Int? = null,
-    @SerialName("id") val id: Int? = null,
-    @SerialName("description") val description: String = "",
-    @SerialName("word") val word: String = "",
     @SerialName("countSee") var countSee: String = "0",
+    @SerialName("description") val description: String = "",
     @SerialName("save") var isFavorite: Boolean = false,
+    @SerialName("id") val id: Long? = null,
+    @PrimaryKey(autoGenerate = true) val uid: Long? = null,
+    @SerialName("word") val word: String = "",
 )

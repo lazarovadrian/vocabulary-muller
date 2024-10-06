@@ -32,18 +32,9 @@ class DictionaryApi {
     }
 
     //запись в базу количества просмотров
-    fun wordViewed(word: DictionaryVO, counter: Int) {
+    fun wordViewed(word: DictionaryVO) {
         dbPathMain.child(word.id.toString())
-            .child(DICTIONARY_NODE).setValue(
-                DictionaryVO(
-                    word.uid,
-                    word.id,
-                    word.description,
-                    word.word,
-                    counter.toString(),
-                    word.isFavorite
-                )
-            )
+            .child(DICTIONARY_NODE).setValue(word)
     }
 
     interface ReadDataInterface {
