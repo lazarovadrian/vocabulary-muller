@@ -7,14 +7,19 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lazarovstudio.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.adapter.AdapterAlphabetFragment
 import com.lazarovstudio.vocabularymuller.adapter.AdapterCallback
-import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.databinding.RcFragmentAlphabetBinding
 import com.lazarovstudio.vocabularymuller.extension.openFragment
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
-import java.util.Locale
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 //TODO: Добавить поиск по слову
 //TODO: Оптимизировать поиск
@@ -24,7 +29,9 @@ class AlphabetFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: AdapterAlphabetFragment
     private val model: MainViewModel by viewModels()
-//    private val args: AlphabetFragmentArgs by navArgs()
+    private val args: AlphabetFragmentArgs by navArgs()
+
+    private var searchWord: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -68,45 +75,43 @@ class AlphabetFragment : Fragment() {
             }
         })
 
-//        setupSearchView()
+        if (args.letter.isNotEmpty()) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                setupSearchView()
+                searchWord(args.letter)
+            }
+        }
     }
 
     private fun setupSearchView() {
+
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    model.liveDataWordsList.observe(viewLifecycleOwner) { wordList ->
-                        val filteredList = wordList.filter {
-                            it.word.lowercase(Locale.getDefault())
-                                .startsWith(query.lowercase(Locale.getDefault()))
-                        }
-                        adapter.submitList(filteredList)
-                        binding.rcFragmentAlphabet.scrollToPosition(0)
-                    }
-                }
-                return true
+                return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
+                searchWord?.cancel()
                 query?.let {
-                    model.liveDataWordsList.observe(viewLifecycleOwner) { wordList ->
-                        val filteredList = wordList.filter {
-                            it.word.lowercase(Locale.getDefault())
-                                .startsWith(query.lowercase(Locale.getDefault()))
+                    searchWord = model.viewModelScope.launch {
+                        delay(100L)
+                        if (query.isNotEmpty()) {
+                            model.searchWord(query)
                         }
-                        adapter.submitList(filteredList)
-                        binding.rcFragmentAlphabet.scrollToPosition(0)
                     }
                 }
                 return true
             }
         })
-//        searchWord(args.letter)
     }
 
-//    private fun searchWord(char: String) {
-//
-//    }
+    private suspend fun searchWord(char: String) {
+        model.searchWord(char)
+        model.searchWord.collect { items ->
+            adapter.submitList(items)
+            binding.rcFragmentAlphabet.scrollToPosition(0)
+        }
+    }
 
     private fun progress(showProgress: Boolean, showInfo: Boolean) {
         binding.progress.visibility = if (showProgress) View.VISIBLE else View.GONE

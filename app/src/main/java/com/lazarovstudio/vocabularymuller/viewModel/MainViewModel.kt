@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.lazarovstudio.vocabularymuller.data.remote.DictionaryApi
-import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
-import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
-import com.lazarovstudio.vocabularymuller.data.room.Dependencies.dictionaryRealization
+import com.lazarovstudio.data.remote.DictionaryApi
+import com.lazarovstudio.data.remote.vo.DictionaryVO
+import com.lazarovstudio.data.room.Dependencies.dictionaryRealization
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -18,6 +20,8 @@ class MainViewModel : ViewModel() {
     private val dictionaryApi = DictionaryApi()
     private val repository = dictionaryRealization
     private val _liveDataWordsListNew = repository.allDictionaryAsFlow().asLiveData()
+    private val _searchWord = MutableStateFlow(listOf(DictionaryVO()))
+    val searchWord: StateFlow<List<DictionaryVO>> = _searchWord.asStateFlow()
     val liveDataWordsList: LiveData<List<DictionaryVO>> = _liveDataWordsListNew
 
     init {
@@ -40,17 +44,30 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    // Преобразуем API вызов в suspend функцию
     private suspend fun getDictionaryFromApi(): List<DictionaryVO> =
         suspendCoroutine { continuation ->
-            dictionaryApi.getDictionary(object : DictionaryApi.ReadDataInterface {
+            dictionaryApi.getDictionary(object :
+                DictionaryApi.ReadDataInterface {
                 override fun readData(list: List<DictionaryVO>) {
                     continuation.resume(list)
                 }
             })
         }
 
-    fun onFavoriteClick(isFavorite: Boolean, favoriteWord: FavoriteVO) {
+    fun searchWord(char: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _searchWord.value = repository.searchDictionary(char)
+            } catch (e: Exception) {
+                Log.e("DATA_ERROR", "An error occurred: ${e.message}")
+            }
+        }
+    }
+
+    fun onFavoriteClick(
+        isFavorite: Boolean,
+        favoriteWord: com.lazarovstudio.data.remote.vo.FavoriteVO
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addOrRemoveFavorite(word = favoriteWord, isFavorite = isFavorite)
         }

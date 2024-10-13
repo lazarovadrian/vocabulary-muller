@@ -20,6 +20,7 @@
             app:destination="@id/detailWordFragment" />
         <argument
             android:name="letter"
+            android:defaultValue="a"
             app:argType="string" />
     </fragment>
 

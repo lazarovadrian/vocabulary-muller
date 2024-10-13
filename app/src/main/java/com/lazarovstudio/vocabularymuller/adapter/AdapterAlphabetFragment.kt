@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.lazarovstudio.data.remote.vo.DictionaryVO
+import com.lazarovstudio.data.remote.vo.FavoriteVO
+import com.lazarovstudio.mappers.toFavorite
 import com.lazarovstudio.vocabularymuller.R
-import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
-import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
-import com.lazarovstudio.vocabularymuller.mappers.toFavorite
 
 class AdapterAlphabetFragment(
     private val onFavoriteClick: (isFavorite: Boolean, favoriteWord: FavoriteVO) -> Unit
 ) :
-    ListAdapter<DictionaryVO, AdapterAlphabetFragment.AlphabetHolder>(Comparator.DiffCallback),
+    ListAdapter<DictionaryVO, AdapterAlphabetFragment.AlphabetHolder>(
+        Comparator.DiffCallback
+    ),
     View.OnClickListener {
 
     private var wordCard: AdapterCallback<DictionaryVO>? = null
@@ -53,8 +55,6 @@ class AdapterAlphabetFragment(
 
             card.tag = itemWord.id
             saveFavorite.tag = itemWord.uid
-
-            Log.d("DATA_ADAPTER", itemWord.id.toString())
 
             if (itemWord.isFavorite) {
                 saveFavorite.setImageResource(R.drawable.favorite_active)
@@ -93,14 +93,21 @@ class AdapterAlphabetFragment(
 
     data class Comparator(val id: Int, val name: String) {
         companion object {
-            val DiffCallback = object : DiffUtil.ItemCallback<DictionaryVO>() {
-                override fun areItemsTheSame(oldItem: DictionaryVO, newItem: DictionaryVO) =
-                    oldItem.id == newItem.id
+            val DiffCallback =
+                object : DiffUtil.ItemCallback<DictionaryVO>() {
+                    override fun areItemsTheSame(
+                        oldItem: DictionaryVO,
+                        newItem: DictionaryVO
+                    ) =
+                        oldItem.id == newItem.id
 
-                override fun areContentsTheSame(oldItem: DictionaryVO, newItem: DictionaryVO) =
-                    oldItem == newItem
+                    override fun areContentsTheSame(
+                        oldItem: DictionaryVO,
+                        newItem: DictionaryVO
+                    ) =
+                        oldItem == newItem
 
-            }
+                }
         }
     }
 }

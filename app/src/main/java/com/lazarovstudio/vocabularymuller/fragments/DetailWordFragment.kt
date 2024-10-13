@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.lazarovstudio.mappers.toFavorite
 import com.lazarovstudio.vocabularymuller.R
-import com.lazarovstudio.vocabularymuller.data.remote.vo.DictionaryVO
 import com.lazarovstudio.vocabularymuller.databinding.FragmentDetailWordBinding
-import com.lazarovstudio.vocabularymuller.mappers.toFavorite
 import com.lazarovstudio.vocabularymuller.viewModel.MainViewModel
 
 //TODO: создать viewModel получать данные из базы
@@ -33,7 +32,7 @@ class DetailWordFragment : Fragment() {
         val frDetailWord = arguments?.getStringArrayList("detailInfoWord")
 
         val detailWord = frDetailWord?.get(0)?.let {
-            DictionaryVO(
+            com.lazarovstudio.data.remote.vo.DictionaryVO(
                 countSee = frDetailWord[4],
                 description = frDetailWord[2],
                 isFavorite = frDetailWord[5].toBoolean(),

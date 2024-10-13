@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lazarovstudio.vocabularymuller.R
-import com.lazarovstudio.vocabularymuller.data.remote.vo.FavoriteVO
+import com.lazarovstudio.data.remote.vo.FavoriteVO
 import com.lazarovstudio.vocabularymuller.databinding.ListAlphabetBinding
 
 class AdapterFavoriteFragment(
-    private val onFavoriteClick: (isFavorite: Boolean, favoriteWord: FavoriteVO) -> Unit
+    private val onFavoriteClick: (isFavorite: Boolean, favoriteWord: com.lazarovstudio.data.remote.vo.FavoriteVO) -> Unit
 ) :
-    ListAdapter<FavoriteVO, AdapterFavoriteFragment.FavoriteHolder>(Comparator()) {
+    ListAdapter<com.lazarovstudio.data.remote.vo.FavoriteVO, AdapterFavoriteFragment.FavoriteHolder>(Comparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
         return FavoriteHolder(
@@ -49,12 +49,12 @@ class AdapterFavoriteFragment(
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<FavoriteVO>() {
-        override fun areItemsTheSame(oldItem: FavoriteVO, newItem: FavoriteVO): Boolean {
+    class Comparator : DiffUtil.ItemCallback<com.lazarovstudio.data.remote.vo.FavoriteVO>() {
+        override fun areItemsTheSame(oldItem: com.lazarovstudio.data.remote.vo.FavoriteVO, newItem: com.lazarovstudio.data.remote.vo.FavoriteVO): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: FavoriteVO, newItem: FavoriteVO): Boolean {
+        override fun areContentsTheSame(oldItem: com.lazarovstudio.data.remote.vo.FavoriteVO, newItem: com.lazarovstudio.data.remote.vo.FavoriteVO): Boolean {
             return oldItem == newItem
         }
 
